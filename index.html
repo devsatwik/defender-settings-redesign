@@ -1031,7 +1031,7 @@
           <!-- Header -->
           <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;">
             <div style="font-size:15px;font-weight:600;color:var(--text-dark);">CAPTCHA</div>
-            <span style="font-size:10px;font-weight:600;padding:3px 10px;border-radius:3px;background:#FFF6ED;color:#FF6D00;border:1px solid #FFD9B3;">reCAPTCHA</span>
+            <span class="captcha-active-badge" style="font-size:10px;font-weight:600;padding:3px 10px;border-radius:3px;background:#FFF6ED;color:#FF6D00;border:1px solid #FFD9B3;">reCAPTCHA</span>
           </div>
           <p style="font-size:13px;color:var(--text-light);margin-bottom:16px;">Set up a human verification system to keep malicious software from engaging in abusive activities on your website while helping your legitimate users to enter with ease.</p>
 
@@ -1039,96 +1039,248 @@
             ⚠ Configure a CAPTCHA provider to verify users and prevent automated bots. Both reCAPTCHA and Cloudflare Turnstile are supported.
           </div>
 
-          <div class="content-grid">
-            <div class="content-col">
-              <!-- Widget Settings -->
-              <div class="section-heading">Widget Settings</div>
-              <div style="display:flex;gap:16px;margin-bottom:16px;">
-                <div style="flex:1;">
-                  <div style="font-size:11px;color:var(--text-light);margin-bottom:4px;">Size</div>
-                  <select class="select" style="width:100%;">
-                    <option selected>Normal</option>
-                    <option>Compact</option>
-                  </select>
-                </div>
-                <div style="flex:1;">
-                  <div style="font-size:11px;color:var(--text-light);margin-bottom:4px;">Theme</div>
-                  <select class="select" style="width:100%;">
-                    <option selected>Light</option>
-                    <option>Dark</option>
-                  </select>
-                </div>
-              </div>
+          <!-- Provider Sub-tabs -->
+          <div style="display:flex;gap:0;border-bottom:2px solid var(--border-light);margin-bottom:24px;">
+            <div class="captcha-provider active-provider" data-provider="recaptcha" style="padding:10px 20px;font-size:13px;font-weight:500;color:var(--blue);border-bottom:2px solid var(--blue);margin-bottom:-2px;cursor:pointer;display:flex;align-items:center;gap:6px;">
+              <span style="font-size:14px;">🔵</span> RECAPTCHA
+            </div>
+            <div class="captcha-provider" data-provider="turnstile" style="padding:10px 20px;font-size:13px;font-weight:500;color:var(--text-light);border-bottom:2px solid transparent;margin-bottom:-2px;cursor:pointer;display:flex;align-items:center;gap:6px;">
+              <span style="font-size:14px;">🟠</span> CLOUDFLARE TURNSTILE
+            </div>
+          </div>
 
-              <!-- Widget Preview -->
-              <div style="font-size:12px;font-weight:600;color:var(--text-dark);margin-bottom:6px;">reCAPTCHA widget preview</div>
-              <div style="border:1px solid var(--border);border-radius:6px;padding:20px;background:#FAFAFA;margin-bottom:6px;text-align:center;">
-                <div style="display:inline-flex;align-items:center;gap:10px;background:white;border:1px solid #D3D3D3;border-radius:4px;padding:10px 16px;">
-                  <div style="width:22px;height:22px;border:2px solid #C1C1C1;border-radius:3px;"></div>
-                  <span style="font-size:13px;color:#555;">I'm not a robot</span>
-                  <div style="text-align:center;margin-left:16px;">
-                    <div style="font-size:16px;color:#4285F4;">↻</div>
-                    <div style="font-size:7px;color:#999;margin-top:1px;">reCAPTCHA</div>
-                  </div>
-                </div>
-              </div>
-              <p style="font-size:11px;color:var(--text-light);margin-bottom:16px;">If you see any errors in the preview, make sure the keys you've entered are valid, and you've listed your domain name while generating the keys.</p>
+          <!-- ======= RECAPTCHA PANEL ======= -->
+          <div class="captcha-panel" id="captcha-recaptcha">
+            <!-- reCAPTCHA Type Selector -->
+            <div class="section-heading">reCAPTCHA type</div>
+            <p style="font-size:12px;color:var(--text-light);margin-bottom:8px;">Select a reCAPTCHA type and enter the API keys. Note that each reCAPTCHA type requires a different set of API keys.</p>
+            <a href="#" style="font-size:12px;color:var(--blue);text-decoration:none;font-weight:500;">Generate API keys.</a>
 
-              <!-- Error Message -->
-              <div class="section-heading">Error Message</div>
-              <input type="text" class="input" value="reCAPTCHA verification failed. Please try again." style="margin-bottom:6px;">
-              <p style="font-size:11px;color:var(--text-light);margin-bottom:16px;">Choose the error message you want to display on your form when reCAPTCHA verification fails.</p>
-
-              <!-- Language -->
-              <div class="section-heading">Language</div>
-              <p style="font-size:12px;color:var(--text-light);margin-bottom:8px;">By default, we'll show the CAPTCHA in your website's language.</p>
-              <div style="font-size:11px;color:var(--text-light);margin-bottom:4px;">Language</div>
-              <select class="select">
-                <option selected>Automatic</option>
-                <option>English</option>
-                <option>Spanish</option>
-                <option>French</option>
-                <option>German</option>
-              </select>
+            <div style="display:flex;gap:0;margin-top:14px;margin-bottom:20px;">
+              <div class="recaptcha-type active-recaptcha-type" data-rtype="v2checkbox" style="padding:8px 20px;font-size:12px;font-weight:500;border:1px solid var(--border);cursor:pointer;border-radius:4px 0 0 4px;color:var(--blue);background:var(--blue-bg);border-color:var(--blue);">V2 Checkbox</div>
+              <div class="recaptcha-type" data-rtype="v2invisible" style="padding:8px 20px;font-size:12px;font-weight:500;border:1px solid var(--border);border-left:none;cursor:pointer;color:var(--text-mid);background:white;">V2 Invisible</div>
+              <div class="recaptcha-type" data-rtype="v3" style="padding:8px 20px;font-size:12px;font-weight:500;border:1px solid var(--border);border-left:none;cursor:pointer;border-radius:0 4px 4px 0;color:var(--text-mid);background:white;">reCAPTCHA V3</div>
             </div>
 
-            <div class="content-col">
-              <!-- CAPTCHA Locations -->
-              <div class="section-heading">CAPTCHA Locations</div>
-              <p style="font-size:12px;color:var(--text-light);margin-bottom:10px;">Choose the forms for which CAPTCHA human verification system will be deployed.</p>
-              <div style="border:1px solid var(--border);border-radius:6px;overflow:hidden;">
-                <div style="padding:10px 16px;background:#FAFAFA;border-bottom:1px solid var(--border);font-size:12px;font-weight:600;color:#666;">Locations</div>
-                <div class="row" style="padding:10px 16px;margin:0;">
-                  <div class="row-label">Login</div>
-                  <div class="toggle" onclick="this.classList.toggle('on')"></div>
-                </div>
-                <div class="row" style="padding:10px 16px;margin:0;">
-                  <div class="row-label">Register</div>
-                  <div class="toggle" onclick="this.classList.toggle('on')"></div>
-                </div>
-                <div class="row" style="padding:10px 16px;margin:0;">
-                  <div class="row-label">Lost Password</div>
-                  <div class="toggle" onclick="this.classList.toggle('on')"></div>
-                </div>
-                <div class="row" style="padding:10px 16px;margin:0;">
-                  <div class="row-label">Comment Form</div>
-                  <div class="toggle" onclick="this.classList.toggle('on')"></div>
-                </div>
-                <div class="row" style="padding:10px 16px;margin:0;border-bottom:none;">
-                  <div class="row-label">WooCommerce Checkout</div>
-                  <div class="toggle" onclick="this.classList.toggle('on')"></div>
-                </div>
+            <!-- API Keys -->
+            <div style="background:#FAFAFA;border:1px solid var(--border);border-radius:6px;padding:20px;margin-bottom:20px;">
+              <p style="font-size:12px;color:var(--text-light);margin-bottom:14px;">Enter the API keys for reCAPTCHA v2 Checkbox type below.</p>
+              <div style="margin-bottom:12px;">
+                <div style="font-size:11px;color:var(--text-light);margin-bottom:4px;">Site key</div>
+                <input type="text" class="input" placeholder="Enter your site key">
               </div>
-              <div class="notice notice-blue" style="margin-top:10px;padding:8px 12px;">
-                ℹ BuddyPress must be active to validate visitors to your BuddyPress pages.
+              <div>
+                <div style="font-size:11px;color:var(--text-light);margin-bottom:4px;">Secret key</div>
+                <input type="text" class="input" placeholder="Enter your secret key">
+              </div>
+            </div>
+
+            <div class="content-grid">
+              <div class="content-col">
+                <!-- Widget Settings -->
+                <div class="section-heading">Widget Settings</div>
+                <div style="display:flex;gap:16px;margin-bottom:16px;">
+                  <div style="flex:1;">
+                    <div style="font-size:11px;color:var(--text-light);margin-bottom:4px;">Size</div>
+                    <select class="select" style="width:100%;">
+                      <option selected>Normal</option>
+                      <option>Compact</option>
+                    </select>
+                  </div>
+                  <div style="flex:1;">
+                    <div style="font-size:11px;color:var(--text-light);margin-bottom:4px;">Theme</div>
+                    <select class="select" style="width:100%;">
+                      <option selected>Light</option>
+                      <option>Dark</option>
+                    </select>
+                  </div>
+                </div>
+
+                <!-- Widget Preview -->
+                <div style="font-size:12px;font-weight:600;color:var(--text-dark);margin-bottom:6px;">reCAPTCHA widget preview</div>
+                <div style="border:1px solid var(--border);border-radius:6px;padding:20px;background:#FAFAFA;margin-bottom:6px;text-align:center;">
+                  <div style="display:inline-flex;align-items:center;gap:10px;background:white;border:1px solid #D3D3D3;border-radius:4px;padding:10px 16px;">
+                    <div style="width:22px;height:22px;border:2px solid #C1C1C1;border-radius:3px;"></div>
+                    <span style="font-size:13px;color:#555;">I'm not a robot</span>
+                    <div style="text-align:center;margin-left:16px;">
+                      <div style="font-size:16px;color:#4285F4;">↻</div>
+                      <div style="font-size:7px;color:#999;margin-top:1px;">reCAPTCHA</div>
+                    </div>
+                  </div>
+                </div>
+                <p style="font-size:11px;color:var(--text-light);margin-bottom:16px;">If you see any errors in the preview, make sure the keys you've entered are valid, and you've listed your domain name while generating the keys.</p>
+
+                <!-- Error Message -->
+                <div class="section-heading">Error Message</div>
+                <input type="text" class="input" value="reCAPTCHA verification failed. Please try again." style="margin-bottom:6px;">
+                <p style="font-size:11px;color:var(--text-light);margin-bottom:16px;">Choose the error message you want to display on your form when reCAPTCHA verification fails.</p>
+
+                <!-- Language -->
+                <div class="section-heading">Language</div>
+                <p style="font-size:12px;color:var(--text-light);margin-bottom:8px;">By default, we'll show the CAPTCHA in your website's language.</p>
+                <div style="font-size:11px;color:var(--text-light);margin-bottom:4px;">Language</div>
+                <select class="select">
+                  <option selected>Automatic</option>
+                  <option>English</option>
+                  <option>Spanish</option>
+                  <option>French</option>
+                  <option>German</option>
+                </select>
               </div>
 
-              <!-- Disable for logged in users -->
-              <div class="section-heading">Logged-in Users</div>
-              <p style="font-size:12px;color:var(--text-light);margin-bottom:10px;">Disable reCAPTCHA for logged in users.</p>
-              <div style="display:flex;align-items:center;gap:8px;">
-                <div class="chk on" style="cursor:pointer;" onclick="this.classList.toggle('on')">✓</div>
-                <span style="font-size:13px;color:var(--text-dark);">Disable reCAPTCHA verification for logged in users</span>
+              <div class="content-col">
+                <!-- CAPTCHA Locations -->
+                <div class="section-heading">CAPTCHA Locations</div>
+                <p style="font-size:12px;color:var(--text-light);margin-bottom:10px;">Choose the forms for which CAPTCHA human verification system will be deployed.</p>
+                <div style="border:1px solid var(--border);border-radius:6px;overflow:hidden;">
+                  <div style="padding:10px 16px;background:#FAFAFA;border-bottom:1px solid var(--border);font-size:12px;font-weight:600;color:#666;">Locations</div>
+                  <div class="row" style="padding:10px 16px;margin:0;">
+                    <div class="row-label">Login</div>
+                    <div class="toggle" onclick="this.classList.toggle('on')"></div>
+                  </div>
+                  <div class="row" style="padding:10px 16px;margin:0;">
+                    <div class="row-label">Register</div>
+                    <div class="toggle" onclick="this.classList.toggle('on')"></div>
+                  </div>
+                  <div class="row" style="padding:10px 16px;margin:0;">
+                    <div class="row-label">Lost Password</div>
+                    <div class="toggle" onclick="this.classList.toggle('on')"></div>
+                  </div>
+                  <div class="row" style="padding:10px 16px;margin:0;">
+                    <div class="row-label">Comment Form</div>
+                    <div class="toggle" onclick="this.classList.toggle('on')"></div>
+                  </div>
+                  <div class="row" style="padding:10px 16px;margin:0;border-bottom:none;">
+                    <div class="row-label">WooCommerce Checkout</div>
+                    <div class="toggle" onclick="this.classList.toggle('on')"></div>
+                  </div>
+                </div>
+                <div class="notice notice-blue" style="margin-top:10px;padding:8px 12px;">
+                  ℹ BuddyPress must be active to validate visitors to your BuddyPress pages.
+                </div>
+
+                <!-- Disable for logged in users -->
+                <div class="section-heading">Logged-in Users</div>
+                <p style="font-size:12px;color:var(--text-light);margin-bottom:10px;">Disable reCAPTCHA for logged in users.</p>
+                <div style="display:flex;align-items:center;gap:8px;">
+                  <div class="chk on" style="cursor:pointer;" onclick="this.classList.toggle('on')">✓</div>
+                  <span style="font-size:13px;color:var(--text-dark);">Disable reCAPTCHA verification for logged in users</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ======= CLOUDFLARE TURNSTILE PANEL ======= -->
+          <div class="captcha-panel" id="captcha-turnstile" style="display:none;">
+            <div class="section-heading">Cloudflare Turnstile</div>
+            <p style="font-size:12px;color:var(--text-light);margin-bottom:8px;">Turnstile delivers frustration-free, CAPTCHA-free web experiences. Create a free Cloudflare account and get your API keys.</p>
+            <a href="#" style="font-size:12px;color:var(--blue);text-decoration:none;font-weight:500;">Get Turnstile API keys →</a>
+
+            <!-- API Keys -->
+            <div style="background:#FAFAFA;border:1px solid var(--border);border-radius:6px;padding:20px;margin:16px 0 20px;">
+              <p style="font-size:12px;color:var(--text-light);margin-bottom:14px;">Enter the API keys for Cloudflare Turnstile below.</p>
+              <div style="margin-bottom:12px;">
+                <div style="font-size:11px;color:var(--text-light);margin-bottom:4px;">Site key</div>
+                <input type="text" class="input" placeholder="Enter your Turnstile site key">
+              </div>
+              <div>
+                <div style="font-size:11px;color:var(--text-light);margin-bottom:4px;">Secret key</div>
+                <input type="text" class="input" placeholder="Enter your Turnstile secret key">
+              </div>
+            </div>
+
+            <div class="content-grid">
+              <div class="content-col">
+                <!-- Widget Settings -->
+                <div class="section-heading">Widget Settings</div>
+                <div style="display:flex;gap:16px;margin-bottom:16px;">
+                  <div style="flex:1;">
+                    <div style="font-size:11px;color:var(--text-light);margin-bottom:4px;">Widget Mode</div>
+                    <select class="select" style="width:100%;">
+                      <option selected>Managed</option>
+                      <option>Non-interactive</option>
+                      <option>Invisible</option>
+                    </select>
+                  </div>
+                  <div style="flex:1;">
+                    <div style="font-size:11px;color:var(--text-light);margin-bottom:4px;">Theme</div>
+                    <select class="select" style="width:100%;">
+                      <option selected>Light</option>
+                      <option>Dark</option>
+                      <option>Auto</option>
+                    </select>
+                  </div>
+                </div>
+
+                <!-- Widget Preview -->
+                <div style="font-size:12px;font-weight:600;color:var(--text-dark);margin-bottom:6px;">Turnstile widget preview</div>
+                <div style="border:1px solid var(--border);border-radius:6px;padding:20px;background:#FAFAFA;margin-bottom:6px;text-align:center;">
+                  <div style="display:inline-flex;align-items:center;gap:10px;background:white;border:1px solid #D3D3D3;border-radius:4px;padding:12px 20px;">
+                    <div style="width:20px;height:20px;border:2px solid #F48120;border-radius:50%;display:flex;align-items:center;justify-content:center;">
+                      <div style="width:8px;height:8px;background:#F48120;border-radius:50%;"></div>
+                    </div>
+                    <span style="font-size:13px;color:#555;">Verifying you are human...</span>
+                    <div style="text-align:center;margin-left:12px;">
+                      <div style="font-size:8px;color:#999;">Cloudflare</div>
+                      <div style="font-size:7px;color:#BBB;">Turnstile</div>
+                    </div>
+                  </div>
+                </div>
+                <p style="font-size:11px;color:var(--text-light);margin-bottom:16px;">Preview may not render if keys are missing. Ensure valid Turnstile site key is entered above.</p>
+
+                <!-- Error Message -->
+                <div class="section-heading">Error Message</div>
+                <input type="text" class="input" value="Turnstile verification failed. Please try again." style="margin-bottom:6px;">
+                <p style="font-size:11px;color:var(--text-light);margin-bottom:16px;">Choose the error message to display when Turnstile verification fails.</p>
+
+                <!-- Language -->
+                <div class="section-heading">Language</div>
+                <p style="font-size:12px;color:var(--text-light);margin-bottom:8px;">By default, we'll show Turnstile in your website's language.</p>
+                <div style="font-size:11px;color:var(--text-light);margin-bottom:4px;">Language</div>
+                <select class="select">
+                  <option selected>Automatic</option>
+                  <option>English</option>
+                  <option>Spanish</option>
+                  <option>French</option>
+                  <option>German</option>
+                </select>
+              </div>
+
+              <div class="content-col">
+                <!-- CAPTCHA Locations -->
+                <div class="section-heading">CAPTCHA Locations</div>
+                <p style="font-size:12px;color:var(--text-light);margin-bottom:10px;">Choose the forms for which Turnstile verification will be deployed.</p>
+                <div style="border:1px solid var(--border);border-radius:6px;overflow:hidden;">
+                  <div style="padding:10px 16px;background:#FAFAFA;border-bottom:1px solid var(--border);font-size:12px;font-weight:600;color:#666;">Locations</div>
+                  <div class="row" style="padding:10px 16px;margin:0;">
+                    <div class="row-label">Login</div>
+                    <div class="toggle" onclick="this.classList.toggle('on')"></div>
+                  </div>
+                  <div class="row" style="padding:10px 16px;margin:0;">
+                    <div class="row-label">Register</div>
+                    <div class="toggle" onclick="this.classList.toggle('on')"></div>
+                  </div>
+                  <div class="row" style="padding:10px 16px;margin:0;">
+                    <div class="row-label">Lost Password</div>
+                    <div class="toggle" onclick="this.classList.toggle('on')"></div>
+                  </div>
+                  <div class="row" style="padding:10px 16px;margin:0;">
+                    <div class="row-label">Comment Form</div>
+                    <div class="toggle" onclick="this.classList.toggle('on')"></div>
+                  </div>
+                  <div class="row" style="padding:10px 16px;margin:0;border-bottom:none;">
+                    <div class="row-label">WooCommerce Checkout</div>
+                    <div class="toggle" onclick="this.classList.toggle('on')"></div>
+                  </div>
+                </div>
+
+                <!-- Disable for logged in users -->
+                <div class="section-heading">Logged-in Users</div>
+                <p style="font-size:12px;color:var(--text-light);margin-bottom:10px;">Disable Turnstile for logged in users.</p>
+                <div style="display:flex;align-items:center;gap:8px;">
+                  <div class="chk on" style="cursor:pointer;" onclick="this.classList.toggle('on')">✓</div>
+                  <span style="font-size:13px;color:var(--text-dark);">Disable Turnstile verification for logged in users</span>
+                </div>
               </div>
             </div>
           </div>
@@ -1602,6 +1754,51 @@
       document.getElementById('tab-' + tab.dataset.tab).classList.add('active');
       let text = tab.textContent.replace('NEW', '').trim();
       breadcrumb.textContent = text;
+    });
+  });
+
+  // CAPTCHA provider tabs
+  document.querySelectorAll('.captcha-provider').forEach(pt => {
+    pt.addEventListener('click', () => {
+      document.querySelectorAll('.captcha-provider').forEach(p => {
+        p.style.color = 'var(--text-light)';
+        p.style.borderBottomColor = 'transparent';
+        p.classList.remove('active-provider');
+      });
+      pt.style.color = 'var(--blue)';
+      pt.style.borderBottomColor = 'var(--blue)';
+      pt.classList.add('active-provider');
+      document.querySelectorAll('.captcha-panel').forEach(p => p.style.display = 'none');
+      document.getElementById('captcha-' + pt.dataset.provider).style.display = 'block';
+      // Update badge
+      const badge = document.querySelector('.captcha-active-badge');
+      if (pt.dataset.provider === 'turnstile') {
+        badge.textContent = 'Turnstile';
+        badge.style.background = '#FFF3E0';
+        badge.style.color = '#E65100';
+        badge.style.borderColor = '#FFCC80';
+      } else {
+        badge.textContent = 'reCAPTCHA';
+        badge.style.background = '#FFF6ED';
+        badge.style.color = '#FF6D00';
+        badge.style.borderColor = '#FFD9B3';
+      }
+    });
+  });
+
+  // reCAPTCHA type buttons
+  document.querySelectorAll('.recaptcha-type').forEach(rt => {
+    rt.addEventListener('click', () => {
+      document.querySelectorAll('.recaptcha-type').forEach(r => {
+        r.style.color = 'var(--text-mid)';
+        r.style.background = 'white';
+        r.style.borderColor = 'var(--border)';
+        r.classList.remove('active-recaptcha-type');
+      });
+      rt.style.color = 'var(--blue)';
+      rt.style.background = 'var(--blue-bg)';
+      rt.style.borderColor = 'var(--blue)';
+      rt.classList.add('active-recaptcha-type');
     });
   });
 
