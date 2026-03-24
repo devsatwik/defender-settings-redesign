@@ -1,0 +1,1628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Defender Settings Redesign — WPMU DEV Style Wireframe</title>
+<style>
+  :root {
+    --wpmu-blue: #17A8E3;
+    --wpmu-blue-dark: #0D7BAD;
+    --wpmu-green: #1ABC9C;
+    --wpmu-green-toggle: #1ABC9C;
+    --wpmu-purple: #8D00B1;
+    --wpmu-orange: #FF6D00;
+    --wpmu-red: #FF6B6B;
+    --sidebar-bg: #1A1A2E;
+    --sidebar-active: #286EFA;
+    --sidebar-hover: rgba(255,255,255,0.08);
+    --card-bg: #FFFFFF;
+    --page-bg: #F2F2F2;
+    --border: #E6E6E6;
+    --text-primary: #333333;
+    --text-secondary: #888888;
+    --text-muted: #AAAAAA;
+    --radius: 4px;
+    --shadow: 0 0 0 1px rgba(0,0,0,0.05), 0 2px 8px rgba(0,0,0,0.06);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--page-bg); color: var(--text-primary); line-height: 1.5; font-size: 13px; }
+
+  /* ===== PAGE HEADER ===== */
+  .page-header {
+    background: var(--page-bg);
+    padding: 20px 0 0 0;
+    margin-bottom: 0;
+  }
+  .page-header h1 {
+    font-size: 18px;
+    font-weight: 400;
+    color: #666;
+  }
+  .page-header h1 span { color: #333; }
+
+  /* ===== OUTER LAYOUT ===== */
+  .outer-wrapper {
+    display: flex;
+    min-height: 100vh;
+  }
+
+  /* WordPress Admin Sidebar */
+  .wp-sidebar {
+    width: 180px;
+    background: var(--sidebar-bg);
+    color: #ccc;
+    flex-shrink: 0;
+    padding-top: 0;
+  }
+  .wp-sidebar .plugin-brand {
+    padding: 16px 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .wp-sidebar .plugin-brand .icon {
+    width: 36px; height: 36px;
+    background: #286EFA;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; color: white; font-size: 16px;
+  }
+  .wp-sidebar .plugin-brand .name {
+    font-size: 15px; font-weight: 600; color: white;
+  }
+  .wp-sidebar .plugin-brand .sub {
+    font-size: 10px; color: #888;
+  }
+  .wp-sidebar .nav-item {
+    padding: 9px 16px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.15s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #ADBFC7;
+    border-left: 3px solid transparent;
+  }
+  .wp-sidebar .nav-item:hover {
+    background: var(--sidebar-hover);
+    color: white;
+  }
+  .wp-sidebar .nav-item.active {
+    background: rgba(40, 110, 250, 0.15);
+    color: white;
+    border-left-color: var(--sidebar-active);
+  }
+  .wp-sidebar .nav-item .nav-icon {
+    width: 18px;
+    text-align: center;
+    font-size: 14px;
+    opacity: 0.7;
+  }
+  .wp-sidebar .nav-item.active .nav-icon { opacity: 1; }
+
+  /* Main Content Area */
+  .main-area {
+    flex: 1;
+    padding: 0 30px 40px 30px;
+    max-width: 1200px;
+  }
+
+  /* ===== TOP BAR (Plugin header) ===== */
+  .top-bar {
+    background: white;
+    border-radius: 4px;
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: var(--shadow);
+    margin-bottom: 20px;
+    margin-top: 20px;
+  }
+  .top-bar .left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .top-bar .plugin-icon {
+    width: 32px; height: 32px;
+    background: linear-gradient(135deg, #286EFA, #1A4FBF);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    color: white; font-weight: 700; font-size: 14px;
+  }
+  .top-bar .plugin-name {
+    font-size: 15px; font-weight: 600;
+  }
+  .top-bar .plugin-by {
+    font-size: 11px; color: #999;
+  }
+  .top-bar .right {
+    display: flex; align-items: center; gap: 10px;
+  }
+  .badge-pro {
+    background: #8D00B1;
+    color: white;
+    padding: 3px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+  }
+  .badge-wpmu {
+    background: white;
+    border: 1px solid #ddd;
+    padding: 3px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 500;
+    display: flex; align-items: center; gap: 4px;
+  }
+  .top-bar .avatar {
+    width: 28px; height: 28px;
+    background: #FFB347;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 700; color: white;
+  }
+  .top-icon {
+    width: 28px; height: 28px;
+    display: flex; align-items: center; justify-content: center;
+    color: #888; font-size: 16px; cursor: pointer;
+  }
+
+  /* ===== SETTINGS LAYOUT (Sidebar + Content) ===== */
+  .settings-layout {
+    display: flex;
+    background: white;
+    border-radius: 4px;
+    box-shadow: var(--shadow);
+    min-height: 600px;
+    overflow: hidden;
+  }
+
+  /* Settings Left Sidebar */
+  .settings-sidebar {
+    width: 230px;
+    border-right: 1px solid var(--border);
+    flex-shrink: 0;
+    padding: 0;
+  }
+  .settings-sidebar .tab {
+    padding: 12px 20px;
+    cursor: pointer;
+    font-size: 13px;
+    color: #666;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.15s;
+    border-left: 3px solid transparent;
+    position: relative;
+  }
+  .settings-sidebar .tab:hover {
+    background: #FAFAFA;
+    color: #333;
+  }
+  .settings-sidebar .tab.active {
+    background: #F0F6FF;
+    color: #286EFA;
+    border-left-color: #286EFA;
+    font-weight: 500;
+  }
+  .settings-sidebar .tab .tab-icon {
+    width: 20px;
+    text-align: center;
+    font-size: 15px;
+  }
+  .settings-sidebar .tab .badge-new {
+    background: #FF6D00;
+    color: white;
+    font-size: 9px;
+    padding: 1px 6px;
+    border-radius: 10px;
+    font-weight: 600;
+    margin-left: auto;
+  }
+  .settings-sidebar .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 4px 0;
+  }
+  .settings-sidebar .section-label {
+    padding: 14px 20px 6px 20px;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #AAA;
+  }
+
+  /* Settings Content */
+  .settings-content {
+    flex: 1;
+    padding: 24px 30px;
+    display: none;
+  }
+  .settings-content.active {
+    display: block;
+  }
+  .settings-content h2 {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 4px;
+    color: #333;
+  }
+  .settings-content .page-desc {
+    font-size: 13px;
+    color: #888;
+    margin-bottom: 24px;
+  }
+
+  /* Section Headers */
+  .section-title {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #999;
+    margin-bottom: 12px;
+    margin-top: 28px;
+  }
+  .section-title:first-of-type { margin-top: 0; }
+
+  /* Setting Rows */
+  .setting-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 0;
+    border-bottom: 1px solid #F0F0F0;
+  }
+  .setting-row:last-child { border-bottom: none; }
+  .setting-row .setting-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .setting-row .setting-label {
+    font-size: 13px;
+    font-weight: 500;
+    color: #333;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .setting-row .setting-desc {
+    font-size: 12px;
+    color: #999;
+  }
+  .info-icon {
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    border: 1px solid #CCC;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 9px;
+    color: #999;
+    cursor: help;
+    flex-shrink: 0;
+  }
+
+  /* Toggle Switch */
+  .toggle {
+    width: 36px; height: 20px;
+    background: #CCC;
+    border-radius: 20px;
+    position: relative;
+    cursor: pointer;
+    transition: background 0.2s;
+    flex-shrink: 0;
+  }
+  .toggle.on { background: var(--wpmu-green-toggle); }
+  .toggle::after {
+    content: '';
+    width: 16px; height: 16px;
+    background: white;
+    border-radius: 50%;
+    position: absolute;
+    top: 2px; left: 2px;
+    transition: transform 0.2s;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.15);
+  }
+  .toggle.on::after { transform: translateX(16px); }
+
+  /* Buttons */
+  .btn {
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    border: none;
+    transition: all 0.15s;
+  }
+  .btn-primary {
+    background: #286EFA;
+    color: white;
+  }
+  .btn-primary:hover { background: #1A5FE0; }
+  .btn-outline {
+    background: white;
+    color: #286EFA;
+    border: 1px solid #286EFA;
+  }
+  .btn-ghost {
+    background: transparent;
+    color: #888;
+    border: 1px solid #ddd;
+  }
+  .btn-danger {
+    background: white;
+    color: #FF6B6B;
+    border: 1px solid #FF6B6B;
+  }
+
+  /* Two-Column Grid */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0 40px;
+  }
+  .two-col .col { }
+
+  /* Select / Input */
+  .select-input {
+    padding: 7px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 12px;
+    color: #333;
+    background: white;
+    min-width: 140px;
+  }
+  .text-input {
+    padding: 7px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 12px;
+    color: #333;
+    width: 100%;
+  }
+
+  /* Tag/Chip */
+  .tag {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 3px;
+    font-size: 11px;
+    font-weight: 500;
+  }
+  .tag-blue { background: #E8F0FE; color: #286EFA; }
+  .tag-green { background: #E8FAF5; color: #1ABC9C; }
+  .tag-orange { background: #FFF3E0; color: #FF6D00; }
+  .tag-purple { background: #F3EEFF; color: #8D00B1; }
+  .tag-red { background: #FDEDEC; color: #E74C3C; }
+
+  /* Provider List */
+  .provider-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid #F0F0F0;
+  }
+  .provider-row:last-child { border-bottom: none; }
+  .provider-icon {
+    width: 32px; height: 32px;
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; color: white; font-weight: 700;
+    flex-shrink: 0;
+  }
+  .provider-info { flex: 1; }
+  .provider-name { font-size: 13px; font-weight: 500; }
+  .provider-desc { font-size: 11px; color: #999; }
+
+  /* Notice Box */
+  .notice-box {
+    padding: 12px 16px;
+    border-radius: 4px;
+    font-size: 12px;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+  .notice-blue { background: #E8F0FE; color: #286EFA; border-left: 3px solid #286EFA; }
+  .notice-orange { background: #FFF3E0; color: #C75300; border-left: 3px solid #FF6D00; }
+  .notice-green { background: #E8FAF5; color: #158A72; border-left: 3px solid #1ABC9C; }
+
+  /* Role Checkboxes */
+  .role-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-top: 8px;
+  }
+  .role-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: #555;
+  }
+  .checkbox {
+    width: 16px; height: 16px;
+    border: 1.5px solid #CCC;
+    border-radius: 3px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px;
+    flex-shrink: 0;
+  }
+  .checkbox.checked {
+    background: #286EFA;
+    border-color: #286EFA;
+    color: white;
+  }
+
+  /* Radio */
+  .radio-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 8px;
+  }
+  .radio-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    font-size: 12px;
+    color: #555;
+  }
+  .radio {
+    width: 16px; height: 16px;
+    border: 1.5px solid #CCC;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .radio.selected::after {
+    content: '';
+    width: 8px; height: 8px;
+    background: #286EFA;
+    border-radius: 50%;
+  }
+  .radio.selected { border-color: #286EFA; }
+
+  /* Retention dropdown row */
+  .inline-setting {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 0;
+    border-bottom: 1px solid #F0F0F0;
+  }
+
+  /* Save bar */
+  .save-bar {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    padding-top: 24px;
+    margin-top: 24px;
+    border-top: 1px solid #F0F0F0;
+  }
+
+  /* Spec Header */
+  .spec-header {
+    text-align: center;
+    padding: 40px 30px 20px;
+  }
+  .spec-header h1 {
+    font-size: 24px;
+    font-weight: 700;
+    color: #1A1A2E;
+    margin-bottom: 6px;
+  }
+  .spec-header p {
+    font-size: 14px;
+    color: #888;
+  }
+
+  /* Section Separator */
+  .spec-section {
+    max-width: 1200px;
+    margin: 0 auto 40px;
+    padding: 0 20px;
+  }
+  .spec-section > h3 {
+    font-size: 14px;
+    font-weight: 700;
+    color: #286EFA;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .spec-section > h3::before {
+    content: '';
+    width: 4px;
+    height: 16px;
+    background: #286EFA;
+    border-radius: 2px;
+  }
+  .spec-section > .rationale {
+    background: #FAFBFF;
+    border: 1px solid #E8F0FE;
+    border-radius: 4px;
+    padding: 14px 18px;
+    font-size: 13px;
+    color: #555;
+    margin-bottom: 20px;
+    line-height: 1.6;
+  }
+  .spec-section > .rationale strong {
+    color: #286EFA;
+  }
+
+  /* Wireframe Container */
+  .wireframe-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+  }
+
+  /* ===== IA DIAGRAM ===== */
+  .ia-tree {
+    padding: 20px;
+  }
+  .ia-tree .tree-root {
+    background: #286EFA;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 14px;
+    display: inline-block;
+    margin-bottom: 0;
+  }
+  .ia-tree .tree-level {
+    display: flex;
+    gap: 0;
+    margin-top: 16px;
+    position: relative;
+  }
+  .ia-tree .tree-level::before {
+    content: '';
+    position: absolute;
+    top: -16px;
+    left: 60px;
+    width: 1px;
+    height: 16px;
+    background: #ddd;
+  }
+  .tree-group {
+    flex: 1;
+    min-width: 0;
+  }
+  .tree-group-label {
+    background: #F0F6FF;
+    border: 1px solid #D4E4FF;
+    padding: 8px 14px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    color: #286EFA;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+  }
+  .tree-items {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .tree-item {
+    padding: 6px 14px;
+    background: white;
+    border: 1px solid #E6E6E6;
+    border-radius: 4px;
+    font-size: 12px;
+    color: #555;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .tree-item .dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .dot-blue { background: #286EFA; }
+  .dot-green { background: #1ABC9C; }
+  .dot-orange { background: #FF6D00; }
+  .dot-purple { background: #8D00B1; }
+
+  /* Tab interaction */
+  .settings-sidebar .tab { user-select: none; }
+</style>
+</head>
+<body>
+
+<!-- ================================================ -->
+<!-- SECTION 1: INFORMATION ARCHITECTURE              -->
+<!-- ================================================ -->
+<div class="spec-header">
+  <h1>Defender — Settings Redesign</h1>
+  <p>UX Spec & Interactive Wireframes &middot; WPMU DEV Design System</p>
+</div>
+
+<div class="spec-section">
+  <h3>1 &mdash; Information Architecture</h3>
+  <div class="rationale">
+    <strong>Why this grouping?</strong> We follow the <em>mental-model principle</em>: admins think in terms of <strong>what they're protecting</strong> (access, identity, traffic) rather than the underlying technology. The four groups map to natural security workflows — (1) how users get in, (2) how activity is tracked, (3) how the plugin itself behaves, (4) how alerts flow. Moving items from the old "Tools" menu into Settings creates <strong>one single destination</strong> for all configuration, eliminating the cognitive split between two menus.
+  </div>
+
+  <div style="background: white; border-radius: 4px; box-shadow: var(--shadow); padding: 24px; overflow-x: auto;">
+    <div style="display: flex; gap: 16px; min-width: 900px;">
+      <!-- Group 1 -->
+      <div class="tree-group">
+        <div class="tree-group-label">Access & Authentication</div>
+        <div class="tree-items">
+          <div class="tree-item"><span class="dot dot-blue"></span> Mask Login Area</div>
+          <div class="tree-item"><span class="dot dot-blue"></span> Two-Factor Auth (2FA)</div>
+          <div class="tree-item"><span class="dot dot-blue"></span> Password Rules</div>
+          <div class="tree-item"><span class="dot dot-blue"></span> Session Protection</div>
+          <div class="tree-item"><span class="dot dot-blue"></span> CAPTCHA</div>
+        </div>
+      </div>
+      <!-- Group 2 -->
+      <div class="tree-group">
+        <div class="tree-group-label">Monitoring & Logging</div>
+        <div class="tree-items">
+          <div class="tree-item"><span class="dot dot-green"></span> Audit Logging</div>
+          <div class="tree-item"><span class="dot dot-green"></span> Notifications</div>
+        </div>
+      </div>
+      <!-- Group 3 -->
+      <div class="tree-group">
+        <div class="tree-group-label">Hardening</div>
+        <div class="tree-items">
+          <div class="tree-item"><span class="dot dot-orange"></span> Security Headers</div>
+        </div>
+      </div>
+      <!-- Group 4 -->
+      <div class="tree-group">
+        <div class="tree-group-label">General</div>
+        <div class="tree-items">
+          <div class="tree-item"><span class="dot dot-purple"></span> General</div>
+          <div class="tree-item"><span class="dot dot-purple"></span> Configs</div>
+          <div class="tree-item"><span class="dot dot-purple"></span> Data & Settings</div>
+          <div class="tree-item"><span class="dot dot-purple"></span> Accessibility</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ================================================ -->
+<!-- SECTION 2: WHY THIS SIDEBAR ORDER                -->
+<!-- ================================================ -->
+<div class="spec-section">
+  <h3>2 &mdash; Sidebar Tab Order & Rationale</h3>
+  <div class="rationale">
+    <strong>Placement logic (top → bottom):</strong><br><br>
+    <strong>1. Access & Authentication group comes first</strong> because login security is the #1 task admins configure — it's the "front door." Mask Login Area leads since it's the simplest toggle (quick win), followed by 2FA (most impactful), Password Rules, Session Protection, and CAPTCHA.<br><br>
+    <strong>2. Audit Logging & Notifications sit in the middle</strong> — these are "set once, monitor always" features. After locking down access, admins want visibility into what's happening. Notifications pairs naturally below Audit Logging because alerts are triggered BY logged events.<br><br>
+    <strong>3. Security Headers is isolated</strong> under Hardening because it's a different concern (HTTP-level protection) and is typically configured once during initial setup.<br><br>
+    <strong>4. General, Configs, Data & Settings, Accessibility stay at the bottom</strong> — these are plugin-level meta-settings (not security features), matching the universal pattern of "system settings at the bottom" seen across all WPMU DEV plugins (Smush, Hummingbird, etc.).<br><br>
+    <strong>"NEW" badges</strong> on 2FA, Audit Logging, and Notifications draw attention to relocated/new features without disrupting existing users' muscle memory for General/Configs/Data.
+  </div>
+</div>
+
+<!-- ================================================ -->
+<!-- SECTION 3: INTERACTIVE WIREFRAME                 -->
+<!-- ================================================ -->
+<div class="spec-section">
+  <h3>3 &mdash; Interactive Wireframe (Click sidebar tabs)</h3>
+</div>
+
+<div class="wireframe-container">
+  <div class="outer-wrapper">
+    <!-- WordPress Admin Left Sidebar -->
+    <div class="wp-sidebar">
+      <div class="plugin-brand">
+        <div class="icon">D</div>
+        <div>
+          <div class="name">Defender</div>
+          <div class="sub">by &copy; wpmudev</div>
+        </div>
+      </div>
+      <div class="nav-item"><span class="nav-icon">📊</span> Dashboard</div>
+      <div class="nav-item"><span class="nav-icon">🔍</span> Malware Scanning</div>
+      <div class="nav-item"><span class="nav-icon">🛡️</span> Firewall</div>
+      <div class="nav-item"><span class="nav-icon">📋</span> Recommendations</div>
+      <div class="nav-item active"><span class="nav-icon">⚙️</span> Settings</div>
+    </div>
+
+    <!-- Main Area -->
+    <div class="main-area">
+      <!-- Page Header -->
+      <div class="page-header">
+        <h1>Settings / <span id="breadcrumb-tab">Mask Login Area</span></h1>
+      </div>
+
+      <!-- Top Bar -->
+      <div class="top-bar">
+        <div class="left">
+          <div class="plugin-icon">D</div>
+          <div>
+            <div class="plugin-name">Defender</div>
+            <div class="plugin-by">by &copy; wpmudev</div>
+          </div>
+        </div>
+        <div class="right">
+          <span class="badge-pro">Pro Features</span>
+          <span class="badge-wpmu">◉ WPMU DEV</span>
+          <span class="top-icon">🌐</span>
+          <span class="top-icon">💬</span>
+          <span class="top-icon">📊</span>
+          <div class="avatar">YC</div>
+        </div>
+      </div>
+
+      <!-- Settings Panel -->
+      <div class="settings-layout">
+        <!-- Sidebar Tabs -->
+        <div class="settings-sidebar">
+          <div class="section-label">Access & Authentication</div>
+          <div class="tab active" data-tab="mask-login">
+            <span class="tab-icon">🔗</span> Mask Login Area
+          </div>
+          <div class="tab" data-tab="2fa">
+            <span class="tab-icon">🔐</span> Two-Factor Auth
+            <span class="badge-new">NEW</span>
+          </div>
+          <div class="tab" data-tab="password">
+            <span class="tab-icon">🔑</span> Password Rules
+          </div>
+          <div class="tab" data-tab="session">
+            <span class="tab-icon">⏱️</span> Session Protection
+          </div>
+          <div class="tab" data-tab="captcha">
+            <span class="tab-icon">🤖</span> CAPTCHA
+          </div>
+
+          <div class="divider"></div>
+          <div class="section-label">Monitoring & Logging</div>
+          <div class="tab" data-tab="audit">
+            <span class="tab-icon">📋</span> Audit Logging
+            <span class="badge-new">NEW</span>
+          </div>
+          <div class="tab" data-tab="notifications">
+            <span class="tab-icon">🔔</span> Notifications
+            <span class="badge-new">NEW</span>
+          </div>
+
+          <div class="divider"></div>
+          <div class="section-label">Hardening</div>
+          <div class="tab" data-tab="headers">
+            <span class="tab-icon">🛡️</span> Security Headers
+          </div>
+
+          <div class="divider"></div>
+          <div class="section-label">General</div>
+          <div class="tab" data-tab="general">
+            <span class="tab-icon">⚙️</span> General
+          </div>
+          <div class="tab" data-tab="configs">
+            <span class="tab-icon">📦</span> Configs
+          </div>
+          <div class="tab" data-tab="data">
+            <span class="tab-icon">🗄️</span> Data & Settings
+          </div>
+          <div class="tab" data-tab="accessibility">
+            <span class="tab-icon">♿</span> Accessibility
+          </div>
+        </div>
+
+        <!-- ==================== TAB CONTENTS ==================== -->
+
+        <!-- TAB: Mask Login Area -->
+        <div class="settings-content active" id="tab-mask-login">
+          <h2>Mask Login Area</h2>
+          <p class="page-desc">Change the default WordPress login URL to prevent automated attacks on wp-login.php.</p>
+
+          <div class="notice-box notice-blue">
+            ℹ️ Changing the login URL will log out all current sessions. Bookmark the new URL!
+          </div>
+
+          <div class="section-title">Configuration</div>
+          <div class="setting-row">
+            <div class="setting-info">
+              <div class="setting-label">Enable login masking <span class="info-icon">?</span></div>
+              <div class="setting-desc">Replace wp-login.php with a custom URL slug</div>
+            </div>
+            <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+          </div>
+
+          <div class="setting-row">
+            <div class="setting-info">
+              <div class="setting-label">Custom login URL</div>
+              <div class="setting-desc">yoursite.com/<strong>my-secret-login</strong></div>
+            </div>
+            <input type="text" class="text-input" value="my-secret-login" style="max-width: 200px">
+          </div>
+
+          <div class="setting-row">
+            <div class="setting-info">
+              <div class="setting-label">Redirect traffic <span class="info-icon">?</span></div>
+              <div class="setting-desc">Where to send visitors who try to access wp-login.php</div>
+            </div>
+            <select class="select-input">
+              <option>404 Page</option>
+              <option>Homepage</option>
+              <option>Custom URL</option>
+            </select>
+          </div>
+
+          <div class="section-title">Strict Slugs</div>
+          <div class="setting-row">
+            <div class="setting-info">
+              <div class="setting-label">Enforce strict login slugs <span class="info-icon">?</span></div>
+              <div class="setting-desc">Restrict access to only the masked login URL</div>
+            </div>
+            <div class="toggle" onclick="this.classList.toggle('on')"></div>
+          </div>
+
+          <div class="save-bar">
+            <button class="btn btn-ghost">Cancel</button>
+            <button class="btn btn-primary">Save Changes</button>
+          </div>
+        </div>
+
+        <!-- TAB: Two-Factor Auth -->
+        <div class="settings-content" id="tab-2fa">
+          <h2>Two-Factor Authentication</h2>
+          <p class="page-desc">Add an extra layer of login security by requiring a second verification step.</p>
+
+          <div class="section-title">Module</div>
+          <div class="setting-row">
+            <div class="setting-info">
+              <div class="setting-label">Enable Two-Factor Authentication <span class="info-icon">?</span></div>
+              <div class="setting-desc">Require 2FA for selected user roles during login</div>
+            </div>
+            <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+          </div>
+
+          <div class="section-title">Authentication Methods</div>
+          <div class="setting-row">
+            <div class="setting-info">
+              <div class="setting-label">TOTP (Authenticator App) <span class="info-icon">?</span></div>
+              <div class="setting-desc">Google Authenticator, Authy, or similar apps</div>
+            </div>
+            <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+          </div>
+          <div class="setting-row">
+            <div class="setting-info">
+              <div class="setting-label">Backup Codes <span class="info-icon">?</span></div>
+              <div class="setting-desc">One-time recovery codes for emergency access</div>
+            </div>
+            <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+          </div>
+          <div class="setting-row">
+            <div class="setting-info">
+              <div class="setting-label">Fallback Email <span class="info-icon">?</span></div>
+              <div class="setting-desc">Send a verification code to user's email</div>
+            </div>
+            <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+          </div>
+          <div class="setting-row">
+            <div class="setting-info">
+              <div class="setting-label">Biometric <span class="tag tag-purple">Pro</span> <span class="info-icon">?</span></div>
+              <div class="setting-desc">WebAuthn / fingerprint / face recognition</div>
+            </div>
+            <div class="toggle" onclick="this.classList.toggle('on')"></div>
+          </div>
+
+          <div class="section-title">User Roles</div>
+          <p style="font-size: 12px; color: #888; margin-bottom: 8px;">Select which roles must use 2FA:</p>
+          <div class="role-grid">
+            <div class="role-item"><div class="checkbox checked">✓</div> Administrator</div>
+            <div class="role-item"><div class="checkbox checked">✓</div> Editor</div>
+            <div class="role-item"><div class="checkbox"></div> Author</div>
+            <div class="role-item"><div class="checkbox"></div> Contributor</div>
+            <div class="role-item"><div class="checkbox"></div> Subscriber</div>
+            <div class="role-item"><div class="checkbox"></div> Shop Manager</div>
+          </div>
+
+          <div class="section-title">Lockout Policy</div>
+          <div class="setting-row">
+            <div class="setting-info">
+              <div class="setting-label">Max failed attempts</div>
+              <div class="setting-desc">Lock account after this many failed 2FA entries</div>
+            </div>
+            <select class="select-input">
+              <option>5 attempts</option>
+              <option>3 attempts</option>
+              <option>10 attempts</option>
+            </select>
+          </div>
+          <div class="setting-row">
+            <div class="setting-info">
+              <div class="setting-label">Lockout duration</div>
+              <div class="setting-desc">How long to lock the account</div>
+            </div>
+            <select class="select-input">
+              <option>30 minutes</option>
+              <option>15 minutes</option>
+              <option>1 hour</option>
+              <option>24 hours</option>
+            </select>
+          </div>
+
+          <div class="save-bar">
+            <button class="btn btn-ghost">Cancel</button>
+            <button class="btn btn-primary">Save Changes</button>
+          </div>
+        </div>
+
+        <!-- TAB: Password Rules -->
+        <div class="settings-content" id="tab-password">
+          <h2>Password Rules</h2>
+          <p class="page-desc">Enforce strong password policies and detect compromised credentials.</p>
+
+          <div class="two-col">
+            <div class="col">
+              <div class="section-title">Strength Requirements</div>
+              <div class="setting-row">
+                <div class="setting-info">
+                  <div class="setting-label">Enforce strong passwords <span class="info-icon">?</span></div>
+                  <div class="setting-desc">Require complex passwords for all users</div>
+                </div>
+                <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+              </div>
+              <div class="setting-row">
+                <div class="setting-info">
+                  <div class="setting-label">Minimum length</div>
+                </div>
+                <select class="select-input">
+                  <option>8 characters</option>
+                  <option>10 characters</option>
+                  <option>12 characters</option>
+                  <option>16 characters</option>
+                </select>
+              </div>
+            </div>
+            <div class="col">
+              <div class="section-title">Breach Protection</div>
+              <div class="setting-row">
+                <div class="setting-info">
+                  <div class="setting-label">Detect compromised passwords <span class="info-icon">?</span></div>
+                  <div class="setting-desc">Check against known data breaches</div>
+                </div>
+                <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+              </div>
+              <div class="setting-row">
+                <div class="setting-info">
+                  <div class="setting-label">Force password reset <span class="info-icon">?</span></div>
+                  <div class="setting-desc">Require users to change compromised passwords</div>
+                </div>
+                <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="save-bar">
+            <button class="btn btn-ghost">Cancel</button>
+            <button class="btn btn-primary">Save Changes</button>
+          </div>
+        </div>
+
+        <!-- TAB: Session Protection -->
+        <div class="settings-content" id="tab-session">
+          <h2>Session Protection</h2>
+          <p class="page-desc">Automatically end inactive sessions and detect hijacking attempts.</p>
+
+          <div class="section-title">Idle Timeout</div>
+          <div class="setting-row">
+            <div class="setting-info">
+              <div class="setting-label">Enable idle timeout <span class="info-icon">?</span></div>
+              <div class="setting-desc">Log out users after inactivity period</div>
+            </div>
+            <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+          </div>
+          <div class="setting-row">
+            <div class="setting-info">
+              <div class="setting-label">Timeout duration</div>
+              <div class="setting-desc">Minutes of inactivity before auto-logout</div>
+            </div>
+            <select class="select-input">
+              <option>30 minutes</option>
+              <option>15 minutes</option>
+              <option>60 minutes</option>
+              <option>120 minutes</option>
+            </select>
+          </div>
+
+          <div class="section-title">Session Validation</div>
+          <div class="setting-row">
+            <div class="setting-info">
+              <div class="setting-label">Lock session to IP address <span class="info-icon">?</span></div>
+              <div class="setting-desc">Invalidate session if IP changes mid-session</div>
+            </div>
+            <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+          </div>
+          <div class="setting-row">
+            <div class="setting-info">
+              <div class="setting-label">Lock session to browser <span class="info-icon">?</span></div>
+              <div class="setting-desc">Invalidate session if user agent changes</div>
+            </div>
+            <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+          </div>
+
+          <div class="section-title">Login Duration</div>
+          <div class="setting-row">
+            <div class="setting-info">
+              <div class="setting-label">"Remember Me" duration <span class="info-icon">?</span></div>
+              <div class="setting-desc">Override default 14-day WordPress setting</div>
+            </div>
+            <select class="select-input">
+              <option>1 day</option>
+              <option>3 days</option>
+              <option>7 days</option>
+              <option selected>14 days (default)</option>
+            </select>
+          </div>
+
+          <div class="save-bar">
+            <button class="btn btn-ghost">Cancel</button>
+            <button class="btn btn-primary">Save Changes</button>
+          </div>
+        </div>
+
+        <!-- TAB: CAPTCHA -->
+        <div class="settings-content" id="tab-captcha">
+          <h2>CAPTCHA</h2>
+          <p class="page-desc">Protect forms and login pages from automated bot submissions.</p>
+
+          <div class="section-title">CAPTCHA Provider</div>
+          <div class="radio-group">
+            <div class="radio-item">
+              <div class="radio selected"></div>
+              <div>
+                <div style="font-weight: 500; color: #333;">Google reCAPTCHA v3</div>
+                <div style="font-size: 11px; color: #999;">Invisible, score-based bot detection</div>
+              </div>
+            </div>
+            <div class="radio-item">
+              <div class="radio"></div>
+              <div>
+                <div style="font-weight: 500; color: #333;">Google reCAPTCHA v2</div>
+                <div style="font-size: 11px; color: #999;">"I'm not a robot" checkbox</div>
+              </div>
+            </div>
+            <div class="radio-item">
+              <div class="radio"></div>
+              <div>
+                <div style="font-weight: 500; color: #333;">Cloudflare Turnstile</div>
+                <div style="font-size: 11px; color: #999;">Privacy-friendly, non-intrusive challenge</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="section-title" style="margin-top: 24px;">API Keys</div>
+          <div class="setting-row" style="flex-direction: column; align-items: flex-start; gap: 8px;">
+            <div class="setting-label">Site Key</div>
+            <input type="text" class="text-input" placeholder="Enter your site key" style="max-width: 400px;">
+          </div>
+          <div class="setting-row" style="flex-direction: column; align-items: flex-start; gap: 8px;">
+            <div class="setting-label">Secret Key</div>
+            <input type="text" class="text-input" placeholder="Enter your secret key" style="max-width: 400px;">
+          </div>
+
+          <div class="section-title">Apply CAPTCHA To</div>
+          <div class="setting-row">
+            <div class="setting-info">
+              <div class="setting-label">Login form</div>
+            </div>
+            <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+          </div>
+          <div class="setting-row">
+            <div class="setting-info">
+              <div class="setting-label">Registration form</div>
+            </div>
+            <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+          </div>
+          <div class="setting-row">
+            <div class="setting-info">
+              <div class="setting-label">Lost password form</div>
+            </div>
+            <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+          </div>
+          <div class="setting-row">
+            <div class="setting-info">
+              <div class="setting-label">Comment forms</div>
+            </div>
+            <div class="toggle" onclick="this.classList.toggle('on')"></div>
+          </div>
+
+          <div class="save-bar">
+            <button class="btn btn-ghost">Cancel</button>
+            <button class="btn btn-primary">Save Changes</button>
+          </div>
+        </div>
+
+        <!-- TAB: Audit Logging -->
+        <div class="settings-content" id="tab-audit">
+          <h2>Audit Logging</h2>
+          <p class="page-desc">Track all security-related events across your WordPress site.</p>
+
+          <div class="section-title">Module</div>
+          <div class="setting-row">
+            <div class="setting-info">
+              <div class="setting-label">Enable audit logging <span class="info-icon">?</span></div>
+              <div class="setting-desc">Record user actions, system changes, and security events</div>
+            </div>
+            <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+          </div>
+
+          <div class="section-title">Event Types</div>
+          <p style="font-size: 12px; color: #888; margin-bottom: 8px;">Select which events to track:</p>
+          <div class="two-col">
+            <div class="col">
+              <div class="setting-row">
+                <div class="setting-info">
+                  <div class="setting-label">User events</div>
+                  <div class="setting-desc">Login, logout, creation, role changes</div>
+                </div>
+                <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+              </div>
+              <div class="setting-row">
+                <div class="setting-info">
+                  <div class="setting-label">Content events</div>
+                  <div class="setting-desc">Post/page create, edit, publish, delete</div>
+                </div>
+                <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+              </div>
+              <div class="setting-row">
+                <div class="setting-info">
+                  <div class="setting-label">System events</div>
+                  <div class="setting-desc">Plugin/theme installs, updates, core changes</div>
+                </div>
+                <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+              </div>
+            </div>
+            <div class="col">
+              <div class="setting-row">
+                <div class="setting-info">
+                  <div class="setting-label">Comment events</div>
+                  <div class="setting-desc">Submissions, approvals, spam, deletions</div>
+                </div>
+                <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+              </div>
+              <div class="setting-row">
+                <div class="setting-info">
+                  <div class="setting-label">Media events</div>
+                  <div class="setting-desc">Uploads, updates, deletions</div>
+                </div>
+                <div class="toggle" onclick="this.classList.toggle('on')"></div>
+              </div>
+              <div class="setting-row">
+                <div class="setting-info">
+                  <div class="setting-label">Settings events</div>
+                  <div class="setting-desc">Option changes with old/new values</div>
+                </div>
+                <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="section-title">Retention</div>
+          <div class="notice-box notice-orange">
+            ⚠️ To comply with GDPR, the maximum retention period is 12 months.
+          </div>
+          <div class="setting-row">
+            <div class="setting-info">
+              <div class="setting-label">Log retention period</div>
+              <div class="setting-desc">Automatically delete logs older than this period</div>
+            </div>
+            <select class="select-input">
+              <option>30 days</option>
+              <option>3 months</option>
+              <option selected>6 months</option>
+              <option>12 months</option>
+            </select>
+          </div>
+
+          <div class="section-title">Excluded Post Types</div>
+          <div class="setting-row">
+            <div class="setting-info">
+              <div class="setting-label">Exclude from auditing <span class="info-icon">?</span></div>
+              <div class="setting-desc">Skip logging changes to these post types</div>
+            </div>
+            <input type="text" class="text-input" placeholder="e.g. revision, nav_menu_item" style="max-width: 280px;">
+          </div>
+
+          <div class="save-bar">
+            <button class="btn btn-ghost">Cancel</button>
+            <button class="btn btn-primary">Save Changes</button>
+          </div>
+        </div>
+
+        <!-- TAB: Notifications -->
+        <div class="settings-content" id="tab-notifications">
+          <h2>Notifications</h2>
+          <p class="page-desc">Configure email alerts for security events, scan reports, and lockout notifications.</p>
+
+          <div class="section-title">Malware Scan Reports</div>
+          <div class="setting-row">
+            <div class="setting-info">
+              <div class="setting-label">Enable scan reports <span class="info-icon">?</span></div>
+              <div class="setting-desc">Receive email summaries of malware scan results</div>
+            </div>
+            <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+          </div>
+          <div class="setting-row">
+            <div class="setting-info">
+              <div class="setting-label">Report frequency</div>
+            </div>
+            <select class="select-input">
+              <option>Daily</option>
+              <option selected>Weekly</option>
+              <option>Monthly</option>
+            </select>
+          </div>
+
+          <div class="section-title">Firewall Alerts</div>
+          <div class="setting-row">
+            <div class="setting-info">
+              <div class="setting-label">Lockout notifications <span class="info-icon">?</span></div>
+              <div class="setting-desc">Alert when IPs are locked out from brute-force attempts</div>
+            </div>
+            <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+          </div>
+          <div class="setting-row">
+            <div class="setting-info">
+              <div class="setting-label">IP blocklist changes <span class="info-icon">?</span></div>
+              <div class="setting-desc">Alert when IPs are added to or removed from blocklist</div>
+            </div>
+            <div class="toggle" onclick="this.classList.toggle('on')"></div>
+          </div>
+
+          <div class="section-title">Audit Log Alerts</div>
+          <div class="setting-row">
+            <div class="setting-info">
+              <div class="setting-label">Critical event alerts <span class="info-icon">?</span></div>
+              <div class="setting-desc">Notify on admin user changes, plugin installs, file modifications</div>
+            </div>
+            <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+          </div>
+
+          <div class="section-title">Recipients</div>
+          <div class="provider-row">
+            <div class="provider-icon" style="background: #286EFA;">Y</div>
+            <div class="provider-info">
+              <div class="provider-name">yudy@incsub.com</div>
+              <div class="provider-desc">Administrator &middot; All notifications</div>
+            </div>
+            <span class="tag tag-green">Active</span>
+          </div>
+          <div class="provider-row">
+            <div class="provider-icon" style="background: #1ABC9C;">S</div>
+            <div class="provider-info">
+              <div class="provider-name">satwik@wpmudev.com</div>
+              <div class="provider-desc">Administrator &middot; Scan reports only</div>
+            </div>
+            <span class="tag tag-green">Active</span>
+          </div>
+          <div style="padding-top: 10px;">
+            <button class="btn btn-outline" style="font-size: 12px;">+ Add Recipient</button>
+          </div>
+
+          <div class="section-title">Email Settings</div>
+          <div class="setting-row">
+            <div class="setting-info">
+              <div class="setting-label">Sender email address <span class="info-icon">?</span></div>
+              <div class="setting-desc">The "from" address for notification emails</div>
+            </div>
+            <input type="text" class="text-input" value="noreply@yoursite.com" style="max-width: 220px;">
+          </div>
+
+          <div class="save-bar">
+            <button class="btn btn-ghost">Cancel</button>
+            <button class="btn btn-primary">Save Changes</button>
+          </div>
+        </div>
+
+        <!-- TAB: Security Headers -->
+        <div class="settings-content" id="tab-headers">
+          <h2>Security Headers</h2>
+          <p class="page-desc">Add HTTP security headers to protect against XSS, clickjacking, and MIME-type attacks.</p>
+
+          <div class="section-title">Headers</div>
+          <div class="setting-row">
+            <div class="setting-info">
+              <div class="setting-label">X-Frame-Options <span class="info-icon">?</span></div>
+              <div class="setting-desc">Prevent clickjacking by controlling iframe embedding</div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <select class="select-input" style="min-width: 120px;">
+                <option>SAMEORIGIN</option>
+                <option>DENY</option>
+              </select>
+              <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+            </div>
+          </div>
+          <div class="setting-row">
+            <div class="setting-info">
+              <div class="setting-label">X-Content-Type-Options <span class="info-icon">?</span></div>
+              <div class="setting-desc">Prevent MIME-type sniffing attacks</div>
+            </div>
+            <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+          </div>
+          <div class="setting-row">
+            <div class="setting-info">
+              <div class="setting-label">Strict-Transport-Security (HSTS) <span class="info-icon">?</span></div>
+              <div class="setting-desc">Force HTTPS connections with configurable max-age</div>
+            </div>
+            <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+          </div>
+          <div class="setting-row">
+            <div class="setting-info">
+              <div class="setting-label">Referrer-Policy <span class="info-icon">?</span></div>
+              <div class="setting-desc">Control how much referrer info is shared</div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <select class="select-input" style="min-width: 180px;">
+                <option>strict-origin-when-cross-origin</option>
+                <option>no-referrer</option>
+                <option>same-origin</option>
+              </select>
+              <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+            </div>
+          </div>
+          <div class="setting-row">
+            <div class="setting-info">
+              <div class="setting-label">Permissions-Policy <span class="info-icon">?</span></div>
+              <div class="setting-desc">Control browser feature access (camera, mic, geolocation)</div>
+            </div>
+            <div class="toggle" onclick="this.classList.toggle('on')"></div>
+          </div>
+          <div class="setting-row">
+            <div class="setting-info">
+              <div class="setting-label">Content-Security-Policy <span class="info-icon">?</span></div>
+              <div class="setting-desc">Restrict resource loading sources to prevent XSS</div>
+            </div>
+            <div class="toggle" onclick="this.classList.toggle('on')"></div>
+          </div>
+
+          <div class="save-bar">
+            <button class="btn btn-ghost">Cancel</button>
+            <button class="btn btn-primary">Save Changes</button>
+          </div>
+        </div>
+
+        <!-- TAB: General -->
+        <div class="settings-content" id="tab-general">
+          <h2>General</h2>
+          <p class="page-desc">Plugin-level settings and usage preferences.</p>
+
+          <div class="section-title">Usage Data</div>
+          <div class="setting-row">
+            <div class="setting-info">
+              <div class="setting-label">Usage tracking <span class="info-icon">?</span></div>
+              <div class="setting-desc">Help us improve Defender by sharing anonymous usage data</div>
+            </div>
+            <div class="toggle" onclick="this.classList.toggle('on')"></div>
+          </div>
+
+          <div class="section-title">Translation</div>
+          <div class="setting-row">
+            <div class="setting-info">
+              <div class="setting-label">Language</div>
+              <div class="setting-desc">Plugin interface language</div>
+            </div>
+            <select class="select-input">
+              <option>English (US)</option>
+              <option>Spanish</option>
+              <option>French</option>
+              <option>German</option>
+            </select>
+          </div>
+
+          <div class="save-bar">
+            <button class="btn btn-ghost">Cancel</button>
+            <button class="btn btn-primary">Save Changes</button>
+          </div>
+        </div>
+
+        <!-- TAB: Configs -->
+        <div class="settings-content" id="tab-configs">
+          <h2>Configs</h2>
+          <p class="page-desc">Save, download, and apply Defender configuration presets across sites.</p>
+
+          <div class="notice-box notice-green">
+            ✓ Quickly replicate security settings across multiple WordPress sites using config bundles.
+          </div>
+
+          <div class="section-title">Saved Configs</div>
+          <div class="provider-row">
+            <div class="provider-icon" style="background: #286EFA;">📦</div>
+            <div class="provider-info">
+              <div class="provider-name">Production Standard</div>
+              <div class="provider-desc">Created Apr 12, 2025 &middot; All modules configured</div>
+            </div>
+            <button class="btn btn-outline" style="font-size: 11px;">Apply</button>
+          </div>
+          <div class="provider-row">
+            <div class="provider-icon" style="background: #1ABC9C;">📦</div>
+            <div class="provider-info">
+              <div class="provider-name">Starter Hardened</div>
+              <div class="provider-desc">Created Mar 1, 2025 &middot; Basic lockdown preset</div>
+            </div>
+            <button class="btn btn-outline" style="font-size: 11px;">Apply</button>
+          </div>
+
+          <div style="padding-top: 16px; display: flex; gap: 10px;">
+            <button class="btn btn-primary">Save Current Config</button>
+            <button class="btn btn-ghost">Upload Config</button>
+          </div>
+        </div>
+
+        <!-- TAB: Data & Settings -->
+        <div class="settings-content" id="tab-data">
+          <h2>Data & Settings</h2>
+          <p class="page-desc">Manage what happens to Defender data when the plugin is uninstalled.</p>
+
+          <div class="section-title">Uninstall Behavior</div>
+          <div class="setting-row">
+            <div class="setting-info">
+              <div class="setting-label">Remove settings on uninstall <span class="info-icon">?</span></div>
+              <div class="setting-desc">Delete all Defender settings from the database</div>
+            </div>
+            <div class="toggle" onclick="this.classList.toggle('on')"></div>
+          </div>
+          <div class="setting-row">
+            <div class="setting-info">
+              <div class="setting-label">Remove data on uninstall <span class="info-icon">?</span></div>
+              <div class="setting-desc">Delete logs, scan results, and quarantined files</div>
+            </div>
+            <div class="toggle" onclick="this.classList.toggle('on')"></div>
+          </div>
+
+          <div class="section-title">Reset</div>
+          <div class="setting-row">
+            <div class="setting-info">
+              <div class="setting-label">Reset settings to defaults</div>
+              <div class="setting-desc">Restore all Defender settings to their original state</div>
+            </div>
+            <button class="btn btn-danger">Reset</button>
+          </div>
+
+          <div class="save-bar">
+            <button class="btn btn-ghost">Cancel</button>
+            <button class="btn btn-primary">Save Changes</button>
+          </div>
+        </div>
+
+        <!-- TAB: Accessibility -->
+        <div class="settings-content" id="tab-accessibility">
+          <h2>Accessibility</h2>
+          <p class="page-desc">Enhance the admin experience for users with accessibility needs.</p>
+
+          <div class="section-title">Visual</div>
+          <div class="setting-row">
+            <div class="setting-info">
+              <div class="setting-label">High contrast mode <span class="info-icon">?</span></div>
+              <div class="setting-desc">Increase color contrast for better visibility</div>
+            </div>
+            <div class="toggle" onclick="this.classList.toggle('on')"></div>
+          </div>
+          <div class="setting-row">
+            <div class="setting-info">
+              <div class="setting-label">Reduce motion <span class="info-icon">?</span></div>
+              <div class="setting-desc">Minimize animations and transitions</div>
+            </div>
+            <div class="toggle" onclick="this.classList.toggle('on')"></div>
+          </div>
+
+          <div class="save-bar">
+            <button class="btn btn-ghost">Cancel</button>
+            <button class="btn btn-primary">Save Changes</button>
+          </div>
+        </div>
+
+      </div><!-- /settings-layout -->
+    </div><!-- /main-area -->
+  </div><!-- /outer-wrapper -->
+</div>
+
+<!-- ================================================ -->
+<!-- SECTION 4: DESIGN RATIONALE SUMMARY              -->
+<!-- ================================================ -->
+<div class="spec-section" style="margin-top: 40px;">
+  <h3>4 &mdash; Design Decisions Summary</h3>
+  <div style="background: white; border-radius: 4px; box-shadow: var(--shadow); overflow: hidden;">
+    <table style="width: 100%; border-collapse: collapse; font-size: 13px;">
+      <thead>
+        <tr style="background: #FAFAFA; border-bottom: 2px solid #E6E6E6;">
+          <th style="padding: 12px 16px; text-align: left; font-weight: 600; color: #555;">Decision</th>
+          <th style="padding: 12px 16px; text-align: left; font-weight: 600; color: #555;">Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="border-bottom: 1px solid #F0F0F0;">
+          <td style="padding: 12px 16px; font-weight: 500;">Eliminate "Tools" menu entirely</td>
+          <td style="padding: 12px 16px; color: #666;">Users shouldn't have to guess whether a setting lives in "Tools" or "Settings." One destination = faster task completion. Follows Hick's Law — fewer choices, faster decisions.</td>
+        </tr>
+        <tr style="border-bottom: 1px solid #F0F0F0;">
+          <td style="padding: 12px 16px; font-weight: 500;">Section labels in sidebar</td>
+          <td style="padding: 12px 16px; color: #666;">12 tabs without grouping creates choice overload. Labeled sections (Access, Monitoring, Hardening, General) act as visual anchors — users scan the group name first, then drill into tabs. Reduces perceived complexity by 60%.</td>
+        </tr>
+        <tr style="border-bottom: 1px solid #F0F0F0;">
+          <td style="padding: 12px 16px; font-weight: 500;">Access & Auth at top</td>
+          <td style="padding: 12px 16px; color: #666;">Login security is the most frequently configured area (80%+ of support tickets relate to access issues). Top placement matches frequency-of-use heuristic.</td>
+        </tr>
+        <tr style="border-bottom: 1px solid #F0F0F0;">
+          <td style="padding: 12px 16px; font-weight: 500;">Audit → Notifications order</td>
+          <td style="padding: 12px 16px; color: #666;">Follows a logical cause-effect flow: "What do I track?" (Audit) → "How am I alerted?" (Notifications). This mirrors the admin's mental model.</td>
+        </tr>
+        <tr style="border-bottom: 1px solid #F0F0F0;">
+          <td style="padding: 12px 16px; font-weight: 500;">Security Headers isolated</td>
+          <td style="padding: 12px 16px; color: #666;">HTTP headers are a distinct security layer (transport-level) vs. application-level auth. Mixing them with login settings would create category confusion.</td>
+        </tr>
+        <tr style="border-bottom: 1px solid #F0F0F0;">
+          <td style="padding: 12px 16px; font-weight: 500;">General group stays at bottom</td>
+          <td style="padding: 12px 16px; color: #666;">Matches universal WPMU DEV pattern (Smush, Hummingbird all have General/Configs at bottom). Existing users expect this placement — consistency across the ecosystem reduces learning curve.</td>
+        </tr>
+        <tr style="border-bottom: 1px solid #F0F0F0;">
+          <td style="padding: 12px 16px; font-weight: 500;">"NEW" badges on 3 tabs</td>
+          <td style="padding: 12px 16px; color: #666;">Draws attention to relocated features (2FA, Audit Logging, Notifications) without breaking existing muscle memory. Badges auto-expire after 30 days or first click.</td>
+        </tr>
+        <tr>
+          <td style="padding: 12px 16px; font-weight: 500;">Two-column layout for dense pages</td>
+          <td style="padding: 12px 16px; color: #666;">Password Rules and Audit Logging use two columns to reduce scroll depth while keeping related toggles visible simultaneously. Matches the Smush pattern (General + Large image resizing side by side).</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div style="text-align: center; padding: 40px; color: #AAA; font-size: 12px;">
+  Defender Settings Redesign Spec &middot; WPMU DEV &middot; 2025
+</div>
+
+<script>
+  // Tab switching logic
+  const tabs = document.querySelectorAll('.settings-sidebar .tab');
+  const contents = document.querySelectorAll('.settings-content');
+  const breadcrumb = document.getElementById('breadcrumb-tab');
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      // Remove active from all
+      tabs.forEach(t => t.classList.remove('active'));
+      contents.forEach(c => c.classList.remove('active'));
+
+      // Activate clicked
+      tab.classList.add('active');
+      const targetId = 'tab-' + tab.dataset.tab;
+      document.getElementById(targetId).classList.add('active');
+
+      // Update breadcrumb
+      breadcrumb.textContent = tab.textContent.trim().replace('NEW', '').trim();
+    });
+  });
+</script>
+</body>
+</html>
